@@ -42,11 +42,6 @@ class ArticlesMapperPlain : Function1<List<ArticleDb>, List<ArticlePlain>> {
             words = article.words
         )
 
-    fun mapToDb(articlesPlain: List<ArticlePlain>): List<ArticleDb> =
-        articlesPlain.map {
-            mapToDb(it)
-        }
-
     fun mapToDb(plain: ArticlePlain): ArticleDb =
         ArticleDb(
             id = plain.id,

@@ -40,21 +40,21 @@ class AuthorLocalDataGateway(private val mapper: AuthorsMapperPlain) : AuthorDat
                         AuthorLocal(
                             "authorId2",
                             "Nikos",
-                            " Voulgaris",
+                            "Voulgaris",
                             5,
                             "stored junk 2"
                         ),
                         AuthorLocal(
                             "authorId3",
-                            "George",
-                            " Kaimakas",
+                            "Donny",
+                            " Wals",
                             5,
                             "stored junk 3"
                         ),
                         AuthorLocal(
                             "authorId4",
-                            "Donny",
-                            "Wals",
+                            "Christos",
+                            "Smpyrakos",
                             5,
                             "stored junk 4"
                         ),

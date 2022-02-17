@@ -42,11 +42,6 @@ class ArticlesMapperDb : Function1<List<ArticleRaw>, List<ArticleDb>> {
             words = raw.words
         )
 
-    fun mapToRaw(articlesDb: List<ArticleDb>): List<ArticleRaw> =
-        articlesDb.map {
-            mapToRaw(it)
-        }
-
     fun mapToRaw(db: ArticleDb): ArticleRaw =
         ArticleRaw(
             id = db.id,
