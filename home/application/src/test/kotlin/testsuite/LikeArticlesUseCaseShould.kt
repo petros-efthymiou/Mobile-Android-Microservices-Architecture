@@ -37,13 +37,11 @@ import utils.BaseUnitTest
 @ExperimentalCoroutinesApi
 class LikeArticlesUseCaseShould : BaseUnitTest() {
 
-    lateinit var likeArticle: LikeArticle
+    lateinit var sut: LikeArticle
 
     private val source: LikeArticleSource = mock()
     private val mapper: ArticlesMapper = mock()
     private val articlesData: ArticlesAuthorsLikes = mockArticleData()
-
-
     private val article: Article = mock()
     private val likedArticle: Article = mock()
     private val likedArticlePlain: ArticlePlain = mock()
@@ -53,7 +51,7 @@ class LikeArticlesUseCaseShould : BaseUnitTest() {
     fun savesLikedArticle() = runTest {
         happyPath()
 
-        likeArticle(articleId)
+        sut(articleId)
 
         verify(source, times(1)).updateArticle(likedArticlePlain)
     }
@@ -62,7 +60,7 @@ class LikeArticlesUseCaseShould : BaseUnitTest() {
     fun doesNotSaveArticleInCaseOfError() = runTest {
         errorCase()
 
-        likeArticle(articleId)
+        sut(articleId)
 
         verify(source, times(0)).updateArticle(likedArticlePlain)
     }
@@ -84,7 +82,7 @@ class LikeArticlesUseCaseShould : BaseUnitTest() {
 
         whenever(mapper.invoke(likedArticle, articlePlain.authorId, articlePlain.words)).thenReturn(null)
 
-        likeArticle = LikeArticle(source, mapper)
+        sut = LikeArticle(source, mapper)
     }
 
     private suspend fun happyPath() {
@@ -106,7 +104,7 @@ class LikeArticlesUseCaseShould : BaseUnitTest() {
             likedArticlePlain
         )
 
-        likeArticle = LikeArticle(source, mapper)
+        sut = LikeArticle(source, mapper)
     }
 
 

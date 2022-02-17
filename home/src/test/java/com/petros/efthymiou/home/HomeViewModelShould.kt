@@ -27,8 +27,10 @@ import com.petros.efthymiou.presentation.HomeIntent
 import com.petros.efthymiou.presentation.HomeState
 import com.petros.efthymiou.presentation.HomeStateMapper
 import com.petros.efthymiou.utils.BaseUnitTest
+import com.petros.efthymiou.utils.articlePlain1
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
@@ -36,42 +38,30 @@ import org.junit.Test
 @ExperimentalCoroutinesApi
 class HomeViewModelShould : BaseUnitTest() {
 
-    private lateinit var viewModel: HomeViewModel
+    private lateinit var sut: HomeViewModel
 
     private val stateMapper: HomeStateMapper = mock()
     private val getArticles: GetArticles = mock()
     private val likeArticle: LikeArticle = mock()
-
     private val articles: List<Article> = mock()
     private val articlesPresentation: List<ArticlePresentation> = mock()
     private val articlesInput = Result.success(articles)
     private val successfulState = HomeState.Success(articlesPresentation)
     private val loadingState = HomeState.Loading
-    private val articleId = "id1"
-
-    @Test
-    fun delegatesViewArticlesIntent() = runTest {
-        happyPath()
-
-        viewModel.handleIntent(HomeIntent.ViewAllArticles)
-
-        verify(getArticles, times(1)).invoke()
-    }
+    private val articleId = articlePlain1.id
 
     @Test
     fun turnsLoaderInitially() = runTest {
         happyPath()
 
-        assertEquals(loadingState, viewModel.uiState.value)
+        assertEquals(loadingState, sut.uiState.value)
     }
-
-
 
     @Test
     fun delegatesLikeArticle() = runTest {
         happyPath()
 
-        viewModel.handleIntent(HomeIntent.LikeArticle(articleId))
+        sut.handleIntent(HomeIntent.LikeArticle(articleId))
 
         verify(likeArticle, times(1)).invoke(articleId)
     }
@@ -82,6 +72,17 @@ class HomeViewModelShould : BaseUnitTest() {
         })
         whenever(stateMapper(articlesInput)).thenReturn(successfulState)
 
-        viewModel = HomeViewModel(stateMapper, getArticles, likeArticle)
+        sut = HomeViewModel(stateMapper, getArticles, likeArticle)
+    }
+
+    @Test
+    fun delegatesViewArticlesIntent() = runTest {
+        happyPath()
+
+        sut.handleIntent(HomeIntent.ViewAllArticles)
+
+        delay(50)
+
+        verify(getArticles, times(1)).invoke()
     }
 }

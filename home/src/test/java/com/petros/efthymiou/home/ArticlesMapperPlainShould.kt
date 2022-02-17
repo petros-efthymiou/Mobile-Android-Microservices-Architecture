@@ -18,49 +18,25 @@
 
 package com.petros.efthymiou.home
 
-import com.petros.efthymiou.domain.entities.plain.ArticlePlain
-import com.petros.efthymiou.home.local.database.ArticleDb
 import com.petros.efthymiou.home.local.database.ArticlesMapperPlain
 import com.petros.efthymiou.utils.BaseUnitTest
+import com.petros.efthymiou.utils.articlesDb
+import com.petros.efthymiou.utils.articlesPlain
 import junit.framework.TestCase.assertEquals
 import org.junit.Test
 
 class ArticlesMapperPlainShould : BaseUnitTest() {
 
-    private val mapper = ArticlesMapperPlain()
+    private val sut = ArticlesMapperPlain()
 
     @Test
     fun mapDbToPlain() {
-        val actual = mapper(input)
+        val actual = sut(input)
 
         assertEquals(expected, actual)
     }
 
-    private val input = listOf(
-        ArticleDb(
-            "id1",
-            "title1",
-            "desc1",
-            "2000/10/10",
-            4000,
-            "sports",
-            "imageUrl1",
-            200,
-            "authorId1",
-        )
-    )
+    private val input = articlesDb
 
-    private val expected = listOf(
-        ArticlePlain(
-            "id1",
-            "title1",
-            "desc1",
-            "2000/10/10",
-            4000,
-            "sports",
-            "imageUrl1",
-            200,
-            "authorId1",
-        )
-    )
+    private val expected = articlesPlain
 }

@@ -28,7 +28,6 @@ import com.petros.efthymiou.data.local.ArticleDataSourceLocal
 import com.petros.efthymiou.data.local.AuthorDataSourceLocal
 import com.petros.efthymiou.data.local.LikesDataSourceLocal
 import com.petros.efthymiou.data.remote.ArticleDataSourceRemote
-import com.petros.efthymiou.domain.entities.plain.ArticlePlain
 import com.petros.efthymiou.domain.entities.plain.ArticlesAuthorsLikes
 import com.petros.efthymiou.domain.entities.plain.AuthorPlain
 import junit.framework.TestCase.assertEquals
@@ -37,31 +36,27 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 import utils.BaseUnitTest
+import utils.articlePlain1
+import utils.likedIds
 
 @ExperimentalCoroutinesApi
 class LikeArticleSourceCombinedShould : BaseUnitTest() {
 
-    private lateinit var likeArticleSourceCombined : LikeArticleSourceCombined
+    private lateinit var sut : LikeArticleSourceCombined
 
     private val articleLocalSource: ArticleDataSourceLocal = mock()
     private val articleRemoteSource: ArticleDataSourceRemote = mock()
     private val authorLocalSource: AuthorDataSourceLocal = mock()
     private val likesLocalSource: LikesDataSourceLocal = mock()
     private val mapper: ArticlesAuthorsLikesMapper = mock()
-
-    private val articlePlain = fakeArticlePlain()
-
     private val authorsPlain: List<AuthorPlain> = mock()
-    private val likeIds = listOf("id1", "id2")
-    private val articleId = "id1"
     private val expected : ArticlesAuthorsLikes = mock()
-
 
     @Test
     fun retrievesDataInfoAndCombinesThem() = runTest {
         happyPath()
 
-        val actual = likeArticleSourceCombined.findArticle(articleId)
+        val actual = sut.findArticle(articlePlain1.id)
 
         assertEquals(expected, actual)
     }
@@ -70,57 +65,57 @@ class LikeArticleSourceCombinedShould : BaseUnitTest() {
     fun retrievesDataInfoFromLocalDataSource() = runTest {
         happyPath()
 
-        likeArticleSourceCombined.findArticle(articleId)
+        sut.findArticle(articlePlain1.id)
 
-        verify(articleLocalSource, times(1)).findArticle(articleId)
+        verify(articleLocalSource, times(1)).findArticle(articlePlain1.id)
     }
 
     @Test
     fun savesArticleInLocalDataSource() = runTest {
         makeLikeArticleSource()
 
-        likeArticleSourceCombined.updateArticle(articlePlain)
+        sut.updateArticle(articlePlain1)
 
-        verify(articleLocalSource, times(1)).updateArticle(articlePlain)
+        verify(articleLocalSource, times(1)).updateArticle(articlePlain1)
     }
 
     @Test
     fun updatesArticleInRemoteSource() = runTest {
         makeLikeArticleSource()
 
-        likeArticleSourceCombined.updateArticle(articlePlain)
+        sut.updateArticle(articlePlain1)
 
-        verify(articleRemoteSource, times(1)).updateArticleToServer(articlePlain)
+        verify(articleRemoteSource, times(1)).updateArticleToServer(articlePlain1)
     }
 
     @Test
     fun savesTheLikeLocally() = runTest {
         makeLikeArticleSource()
 
-        likeArticleSourceCombined.updateArticle(articlePlain)
+        sut.updateArticle(articlePlain1)
 
-        verify(likesLocalSource, times(1)).saveLikedArticle(articleId)
+        verify(likesLocalSource, times(1)).saveLikedArticle(articlePlain1.id)
     }
 
 
     private suspend fun happyPath() {
-        whenever(articleLocalSource.findArticle(articleId)).thenReturn(articlePlain)
+        whenever(articleLocalSource.findArticle(articlePlain1.id)).thenReturn(articlePlain1)
 
         whenever(authorLocalSource.findAuthors()).thenReturn(flow {
             emit(authorsPlain)
         })
 
         whenever(likesLocalSource.findLikedArticles()).thenReturn(flow {
-            emit(likeIds)
+            emit(likedIds)
         })
 
-        whenever(mapper(listOf(articlePlain), authorsPlain, likeIds)).thenReturn(expected)
+        whenever(mapper(listOf(articlePlain1), authorsPlain, likedIds)).thenReturn(expected)
 
         makeLikeArticleSource()
     }
 
     private fun makeLikeArticleSource() {
-        likeArticleSourceCombined = LikeArticleSourceCombined(
+        sut = LikeArticleSourceCombined(
             articleLocalSource,
             articleRemoteSource,
             authorLocalSource,
@@ -128,16 +123,4 @@ class LikeArticleSourceCombinedShould : BaseUnitTest() {
             mapper
         )
     }
-
-    private fun fakeArticlePlain() = ArticlePlain(
-        "id1",
-        "title",
-        "desc",
-        "date",
-        2000,
-        "sports",
-        "imageUrl",
-        200,
-        "authorId1"
-    )
 }

@@ -18,39 +18,25 @@
 
 package com.petros.efthymiou.home
 
-import com.petros.efthymiou.domain.entities.plain.AuthorPlain
-import com.petros.efthymiou.home.local.files.AuthorLocal
 import com.petros.efthymiou.home.local.files.AuthorsMapperPlain
 import com.petros.efthymiou.utils.BaseUnitTest
+import com.petros.efthymiou.utils.authorsLocal
+import com.petros.efthymiou.utils.authorsPlain
 import junit.framework.TestCase.assertEquals
 import org.junit.Test
 
 class AuthorsMapperPlainShould : BaseUnitTest() {
 
-    private val mapper = AuthorsMapperPlain()
+    private val sut = AuthorsMapperPlain()
 
     @Test
     fun mapLocalToPlain() {
-        val actual = mapper(input)
+        val actual = sut(input)
 
         assertEquals(expected, actual)
     }
 
-    private val input = listOf(
-        AuthorLocal(
-            "id1",
-            "Petros",
-            "Efthymiou",
-            100,
-            "junk"
-        )
-    )
+    private val input = authorsLocal
 
-    private val expected = listOf(
-        AuthorPlain(
-            "id1",
-            "Petros Efthymiou",
-            100
-        )
-    )
+    private val expected = authorsPlain
 }

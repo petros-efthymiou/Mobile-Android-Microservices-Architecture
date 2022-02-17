@@ -39,11 +39,10 @@ import java.lang.RuntimeException
 @ExperimentalCoroutinesApi
 class GetArticlesUseCaseShould : BaseUnitTest() {
 
-    lateinit var getArticles: GetArticles
+    lateinit var sut: GetArticles
 
     private val source: GetArticlesSource = mock()
     private val mapper: ArticlesMapper = mock()
-
     private val articlesData: ArticlesAuthorsLikes = mock()
     private val articles: List<Article> = mock()
     private val expected = Result.success(articles)
@@ -52,7 +51,7 @@ class GetArticlesUseCaseShould : BaseUnitTest() {
     fun emitSuccessfulArticlesResult() = runTest {
         happyPath()
 
-        val actual = getArticles().first()
+        val actual = sut().first()
 
         assertEquals(expected, actual)
     }
@@ -61,7 +60,7 @@ class GetArticlesUseCaseShould : BaseUnitTest() {
     fun emitsErrorWhenFailToMapArticles() = runTest {
         errorCase()
 
-        val result = getArticles().single().exceptionOrNull()
+        val result = sut().single().exceptionOrNull()
 
         assertEquals(DATA_PROCESS_ERROR, result?.message)
     }
@@ -75,7 +74,7 @@ class GetArticlesUseCaseShould : BaseUnitTest() {
 
         whenever(mapper(articlesData)).thenThrow(RuntimeException())
 
-        getArticles = GetArticles(source, mapper)
+        sut = GetArticles(source, mapper)
     }
 
     private suspend fun happyPath() {
@@ -87,6 +86,6 @@ class GetArticlesUseCaseShould : BaseUnitTest() {
 
         whenever(mapper(articlesData)).thenReturn(articles)
 
-        getArticles = GetArticles(source, mapper)
+        sut = GetArticles(source, mapper)
     }
 }

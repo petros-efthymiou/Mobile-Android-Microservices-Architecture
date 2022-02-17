@@ -37,21 +37,20 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 import utils.BaseUnitTest
+import utils.likedIds
 
 @ExperimentalCoroutinesApi
 class GetArticlesSourceCombinedShould : BaseUnitTest() {
 
-    private lateinit var getArticlesSourceCombined : GetArticlesSourceCombined
+    private lateinit var sut : GetArticlesSourceCombined
 
     private val articleLocalSource: ArticleDataSourceLocal = mock()
     private val articleRemoteSource: ArticleDataSourceRemote = mock()
     private val authorLocalSource: AuthorDataSourceLocal = mock()
     private val likesLocalSource: LikesDataSourceLocal = mock()
     private val mapper: ArticlesAuthorsLikesMapper = mock()
-
     private val articlesPlain: List<ArticlePlain> = mock()
     private val authorsPlain: List<AuthorPlain> = mock()
-    private val likeIds = listOf("id1", "id2")
     private val expected : ArticlesAuthorsLikes = mock()
 
 
@@ -59,7 +58,7 @@ class GetArticlesSourceCombinedShould : BaseUnitTest() {
     fun combineInformationForGetArticlesUseCase() = runTest {
         happyPath()
 
-        val actual = getArticlesSourceCombined.articles().first()
+        val actual = sut.articles().first()
 
         assertEquals(expected, actual)
     }
@@ -68,7 +67,7 @@ class GetArticlesSourceCombinedShould : BaseUnitTest() {
     fun combineArticlesInformationFromLocalAndRemote() = runTest {
         happyPath()
 
-        val actual = getArticlesSourceCombined.articles().count()
+        val actual = sut.articles().count()
 
         assertEquals(2, actual)
     }
@@ -87,12 +86,12 @@ class GetArticlesSourceCombinedShould : BaseUnitTest() {
         })
 
         whenever(likesLocalSource.findLikedArticles()).thenReturn(flow {
-            emit(likeIds)
+            emit(likedIds)
         })
 
-        whenever(mapper(articlesPlain, authorsPlain, likeIds)).thenReturn(expected)
+        whenever(mapper(articlesPlain, authorsPlain, likedIds)).thenReturn(expected)
 
-        getArticlesSourceCombined = GetArticlesSourceCombined(
+        sut = GetArticlesSourceCombined(
             articleLocalSource,
             articleRemoteSource,
             authorLocalSource,

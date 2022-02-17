@@ -18,22 +18,17 @@
 
 package testsuite
 
-import com.petros.efthymiou.domain.entities.Article
 import com.petros.efthymiou.domain.entities.mappers.ArticlesMapper
-import com.petros.efthymiou.domain.entities.plain.ArticleCategory
-import com.petros.efthymiou.domain.entities.plain.ArticlePlain
 import com.petros.efthymiou.domain.entities.plain.ArticlesAuthorsLikes
-import com.petros.efthymiou.domain.entities.plain.AuthorPlain
 import junit.framework.TestCase.assertEquals
 import org.junit.Test
-import utils.BaseUnitTest
+import utils.*
 
 class ArticlesMapperShould : BaseUnitTest() {
 
     private val input = fakeArticlesAuthorsLikes()
 
     private val expectedOutput = expectedOutput()
-
 
     @Test
     fun mapDataToDomain() {
@@ -44,73 +39,11 @@ class ArticlesMapperShould : BaseUnitTest() {
         assertEquals(expectedOutput, output)
     }
 
-
     private fun fakeArticlesAuthorsLikes() = ArticlesAuthorsLikes(
-        articlesPlain = listOf(
-            ArticlePlain(
-                "id1",
-                "title",
-                "desc",
-                "date",
-                1200,
-                "sports",
-                "imageUrl",
-                455,
-                "authorId1"
-            ),
-            ArticlePlain(
-                "id2",
-                "title2",
-                "desc2",
-                "date2",
-                1300,
-                "music",
-                "imageUrl2",
-                555,
-                "authorId2"
-            ),
-        ),
-        authorsPlain = listOf(
-            AuthorPlain(
-                "authorId1",
-                "Petros Efthymiou",
-                100
-            ),
-            AuthorPlain(
-                "authorId2",
-                "Nikos Voulgaris",
-                99
-            )
-        ),
-        likedArticlesIds = listOf(
-            "id1"
-        )
+        articlesPlain = articlesPlain,
+        authorsPlain = authorsPlain,
+        likedArticlesIds = likedArticleIds
     )
 
-    private fun expectedOutput() = listOf(
-        Article(
-            "id1",
-            "title",
-            "desc",
-            "date",
-            1200 / 200,
-            ArticleCategory.SPORTS,
-            "imageUrl",
-            455,
-            "Petros Efthymiou",
-            false
-        ),
-        Article(
-            "id2",
-            "title2",
-            "desc2",
-            "date2",
-            1300 / 200,
-            ArticleCategory.MUSIC,
-            "imageUrl2",
-            555,
-            "Nikos Voulgaris",
-            true
-        ),
-    )
+    private fun expectedOutput() = articles
 }

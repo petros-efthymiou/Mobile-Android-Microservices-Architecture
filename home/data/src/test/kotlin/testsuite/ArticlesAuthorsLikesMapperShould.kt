@@ -19,54 +19,29 @@
 package testsuite
 
 import com.petros.efthymiou.data.ArticlesAuthorsLikesMapper
-import com.petros.efthymiou.domain.entities.plain.ArticlePlain
 import com.petros.efthymiou.domain.entities.plain.ArticlesAuthorsLikes
-import com.petros.efthymiou.domain.entities.plain.AuthorPlain
 import junit.framework.TestCase.assertEquals
 import org.junit.Test
 import utils.BaseUnitTest
+import utils.articlesPlain
+import utils.authorsPlain
+import utils.likedIds
+
 
 class ArticlesAuthorsLikesMapperShould: BaseUnitTest() {
 
-    private val mapper = ArticlesAuthorsLikesMapper()
+    private val sut = ArticlesAuthorsLikesMapper()
 
     @Test
     fun mapArticlesData() {
-        val actual = mapper(articlesPlain(), authors(), likedIds())
+        val actual = sut(articlesPlain, authorsPlain, likedIds)
 
         assertEquals(expected(), actual)
     }
 
     private fun expected() = ArticlesAuthorsLikes(
-        articlesPlain(),
-        authors(),
-        likedIds()
-    )
-
-    private fun likedIds() = listOf(
-        "id",
-        "id1"
-    )
-
-    private fun authors() = listOf(
-        AuthorPlain(
-            "authorId1",
-            "Petros Efthymiou",
-            200
-        )
-    )
-
-    private fun articlesPlain() = listOf(
-        ArticlePlain(
-            "id",
-            "title",
-            "desc",
-            "date",
-            2000,
-            "sports",
-            "imageUrl",
-            200,
-            "authorId1"
-        )
+        articlesPlain,
+        authorsPlain,
+        likedIds
     )
 }

@@ -18,50 +18,25 @@
 
 package com.petros.efthymiou.home
 
-import com.petros.efthymiou.home.local.database.ArticleDb
-import com.petros.efthymiou.home.remote.ArticleRaw
 import com.petros.efthymiou.home.remote.ArticlesMapperDb
 import com.petros.efthymiou.utils.BaseUnitTest
+import com.petros.efthymiou.utils.articlesDb
+import com.petros.efthymiou.utils.articlesRaw
 import junit.framework.TestCase.assertEquals
 import org.junit.Test
 
 class ArticlesMapperDbShould : BaseUnitTest() {
 
-    private val mapper = ArticlesMapperDb()
+    private val sut = ArticlesMapperDb()
 
     @Test
     fun mapRawToDb() {
-        val actual = mapper(input)
+        val actual = sut(input)
 
         assertEquals(expected, actual)
     }
 
-    private val input = listOf(
-        ArticleRaw(
-            "id1",
-            "title1",
-            "desc1",
-            "2000/10/10",
-            4000,
-            "sports",
-            "imageUrl1",
-            200,
-            "authorId1",
-            listOf("junk1", "junk2")
-        )
-    )
+    private val input = articlesRaw
 
-    private val expected = listOf(
-        ArticleDb(
-            "id1",
-            "title1",
-            "desc1",
-            "2000/10/10",
-            4000,
-            "sports",
-            "imageUrl1",
-            200,
-            "authorId1",
-        )
-    )
+    private val expected = articlesDb
 }

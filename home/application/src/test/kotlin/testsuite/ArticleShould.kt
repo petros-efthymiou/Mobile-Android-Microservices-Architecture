@@ -26,7 +26,6 @@ import utils.BaseUnitTest
 
 class ArticleShould : BaseUnitTest() {
 
-
     @Test
     fun increaseLikesCountWhenLikeArticle() {
         val article : Article = fakeArticle()

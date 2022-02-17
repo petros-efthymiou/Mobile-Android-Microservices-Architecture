@@ -18,10 +18,10 @@
 
 package testsuite
 
+import articles
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
 import com.petros.efthymiou.domain.entities.Article
-import com.petros.efthymiou.domain.entities.plain.ArticleCategory
 import com.petros.efthymiou.presentation.ArticlePresentation
 import com.petros.efthymiou.presentation.ArticlesPresentationMapper
 import com.petros.efthymiou.presentation.HomeState
@@ -32,33 +32,7 @@ import org.junit.Test
 
 class HomeStateMapperShould {
 
-    private lateinit var mapper: HomeStateMapper
-    private val articles = listOf(
-        Article(
-            "id1",
-            "title",
-            "desc",
-            "2000-05-20",
-            1200 / 200,
-            ArticleCategory.SPORTS,
-            "imageUrl",
-            455,
-            "Petros Efthymiou",
-            false
-        ),
-        Article(
-            "id2",
-            "title2",
-            "desc2",
-            "2001-06-30",
-            1300 / 200,
-            ArticleCategory.MUSIC,
-            "imageUrl2",
-            555,
-            "Nikos Voulgaris",
-            true
-        ),
-    )
+    private lateinit var sut: HomeStateMapper
 
     private val articlesMapper: ArticlesPresentationMapper = mock()
 
@@ -73,7 +47,7 @@ class HomeStateMapperShould {
     fun mapsSuccessfulInputToSuccessfulState() {
         instantiateMapper()
 
-        val actual = mapper(successInput)
+        val actual = sut(successInput)
 
         assertEquals(HomeState.Success(articlesPresentation), actual)
     }
@@ -83,7 +57,7 @@ class HomeStateMapperShould {
     fun mapsEmptyInputToEmptyState() {
         instantiateMapper()
 
-        val actual = mapper(emptyInput)
+        val actual = sut(emptyInput)
 
         assertEquals(HomeState.Empty, actual)
     }
@@ -93,7 +67,7 @@ class HomeStateMapperShould {
     fun mapsErrorInputToErrorState() {
         instantiateMapper()
 
-        val actual = mapper(errorInput)
+        val actual = sut(errorInput)
 
         assertEquals(HomeState.Error, actual)
     }
@@ -101,7 +75,7 @@ class HomeStateMapperShould {
     private fun instantiateMapper() {
         whenever(articlesMapper.invoke(articles)).thenReturn(articlesPresentation)
 
-        mapper = HomeStateMapper(articlesMapper)
+        sut = HomeStateMapper(articlesMapper)
     }
 
 
