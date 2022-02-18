@@ -4,7 +4,7 @@ Introduction
 ------------
 This repo is an example of the Mobile Microservices Architecture and is offered as an appendix to the book <INSERT_BOOK_NAME_AND_LINK>. The book is covering all the aspects of building Clean Mobile Applications and explains the reasoning behind all the decisions made in this sample project.
 
-This architecture is primarily intended for educational purposes and intends to describe engineering concepts and practices such as:
+This architecture is primarily intended for educational purposes and aims to describe engineering concepts and practices such as:
 
 * Clean architecture
 * Inversion of Control
