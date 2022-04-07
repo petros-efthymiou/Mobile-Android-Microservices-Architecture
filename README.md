@@ -2,7 +2,7 @@ Mobile Android Microservices Architecture
 =========================================
 Introduction
 ------------
-This repo is an example of the Mobile Microservices Architecture and is offered as an appendix to the book <INSERT_BOOK_NAME_AND_LINK>. The book is covering all the aspects of building Clean Mobile Applications and explains the reasoning behind all the decisions made in this sample project.
+This repo is an example of the Mobile Microservices Architecture and is offered as an appendix to the book [Clean Mobile Architecture](https://www.petrosefthymiou.com/product-page). The book is covering all the aspects of building Clean Mobile Applications and explains the reasoning behind all the decisions made in this sample project.
 
 This architecture is primarily intended for educational purposes and aims to describe engineering concepts and practices such as:
 
@@ -22,20 +22,31 @@ The philosophy behind the Mobile Microservices Architecture is to segrate the co
 
 It can be used as a base for an enterprise production app where several independent teams are supposed to co-develop a large scale, complex application in parallel. The boundaries can enable each team to make its own choices on architecture, code style and usage of third party libraries. It's not suited for simple or medium complexity apps as its boundaries will essentially serve as impediments to a small team of developers. Furthermore, independent modules also effectively push against consistency in the codebase. It's a tradeoff similar to Microservices in a backend system. Each Microservice can use it's own Programming language and architecture but it is also adding overhead.
 
-For a more Pragmatic approach that can be used in projects of every size, you can refer to the other example included in the book [Pragmatic Clean Architecture](https://github.com/petros-efthymiou/Android-Pragmatic-Clean-Architecture).
+The technology stack includes:
+* Jetpack Compose
+* Jetpack Navigation
+* Coroutines
+* Kotlin Flow
+* State Flow
+* Room
+* Retrofit
+* Koin
+
 
 Clean Layering
 --------------
-
-![MicroservicesLayering](https://user-images.githubusercontent.com/98778003/154696142-dfd55b92-6578-435f-ae4c-d4597ef9ffe4.png)
+![Microservices_Layering](https://user-images.githubusercontent.com/98778003/162251316-c61ea4c3-de8e-434f-bb68-d4631968d654.png)
 
 The diagram above describes the layering of the project. The thick lines indicate hard boundaries, separation in modules while the thin lines represent soft boundaries, separation in packages.
 
 Architectural Overview
 ---------------
-![Copy of Copy of Untitled Diagram drawio (1) (14)](https://user-images.githubusercontent.com/98778003/154697780-09d210b9-61a0-4f55-ae45-0570b4b3edd9.png)
+
+![Microservices_Diagram](https://user-images.githubusercontent.com/98778003/162251457-28a87ccb-dcf6-466e-9492-c1def80aa827.png)
 
 For more information please refer to the book.
+
+For a more Pragmatic approach that can be used in projects of every size, you can refer to the other example included in the book [Pragmatic Clean Architecture](https://github.com/petros-efthymiou/Android-Pragmatic-Clean-Architecture).
 
 License
 --------
