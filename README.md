@@ -20,7 +20,7 @@ This architecture is primarily intended for educational purposes and aims to des
 
 The philosophy behind the Mobile Microservices Architecture is to segregate the codebase into multiple independent modules that can be developed in complete isolation from the rest. Clean Architecture and the Dependency rule apply. High-level modules are entirely agnostic of the low-level ones. 
 
-It can be used as a base for an enterprise production app where several independent teams are supposed to co-develop a large-scale, complex application in parallel. The boundaries can enable each team to make its own choices on architecture, code style, and usage of third-party libraries. It's not suited for simple or medium complexity apps as its boundaries will essentially serve as impediments to a small team of developers. Furthermore, independent modules also effectively push against consistency in the codebase. It's a tradeoff similar to Microservices in a backend system. Each Microservice can use its own Programming language and architecture, but it also adds overhead.
+It can be used as a base for an enterprise production app where several independent teams are supposed to co-develop a large-scale, complex application in parallel. The boundaries can enable each team to make its own choices on architecture, code style, and usage of third-party libraries. It's not suited for simple or medium complexity apps as its boundaries will essentially serve as impediments to a small team of developers. The approach is inspired by the respective Microservices approach in a backend system. Each Microservice can use its own Programming language and architecture, but it also adds overhead.
 
 The technology stack includes:
 * Jetpack Compose
@@ -46,7 +46,7 @@ Architectural Overview
 
 ![Microservices_Diagram](https://user-images.githubusercontent.com/98778003/162251457-28a87ccb-dcf6-466e-9492-c1def80aa827.png)
 
-For more information, please refer to the book.
+For more information, please refer to the book [Clean Mobile Architecture](https://www.petrosefthymiou.com/product-page).
 
 For a more Pragmatic approach that can be used in projects of every size, you can refer to the other example included in the book [Pragmatic Clean Architecture](https://github.com/petros-efthymiou/Android-Pragmatic-Clean-Architecture).
 
